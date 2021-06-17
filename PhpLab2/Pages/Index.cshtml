@@ -1,0 +1,94 @@
+﻿@page "{title?}/{language?}"
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<head>
+    <meta charset="utf-8" />
+    <title>someText</title>
+</head>
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+@if (Model.Title == null)
+{
+    @*<div class="text-right">
+            <a href="/@Model.Title/ua">ua</a>
+            <a href="/@Model.Title/en">en</a>
+        </div>*@
+
+
+    @foreach (var item in @Model.pageService.GetChildren(Model.pageService.GetHead().Caption))
+    {
+        <a href="/@item.Caption"><p>@item.Caption</p></a>
+    }
+
+}
+else
+{
+    @*<div class="text-right">
+            <a href="/@Model.Title/ua">ua</a>
+        </div>
+        <div class="text-right">
+            <a href="/@Model.Title/en">en</a>
+        </div>*@
+    <div class="text-right">
+            <a href="/@Model.Title/ua">ua</a>
+            <a href="/@Model.Title/en">en</a>
+        </div>
+
+    if (@Model.pageService.GetPageByCaption(Model.Title).ContainerType == "container")
+    {
+        
+            <p>Parent: <a href="/@Model.pageService.GetHead().Caption">@Model.pageService.GetHead().Caption</a></p>
+        
+
+        @foreach (var item in @Model.pageService.GetChildren(Model.Title))
+        {
+            <a href="/@item.Caption"><p>@item.Caption</p></a>
+        }
+    }
+    else
+    {
+         <p>Parent: <a href="/@Model.pageService.GetPageByCaption(Model.Title).Parent.Caption">@Model.pageService.GetPageByCaption(Model.Title).Parent.Caption</a></p>
+        if (Model.Language == null || Model.Language == "en")
+        {
+            <h1>@Model.pageService.GetPageByCaption(Model.Title).Intro_En</h1>
+            <p>@Model.pageService.GetPageByCaption(Model.Title).Content_En;</p>
+            <p>@Model.pageService.GetPageByCaption(Model.Title).Image;</p>
+        }
+        else
+        {
+            <h1>@Model.pageService.GetPageByCaption(Model.Title).Intro_UA</h1>
+            <p>@Model.pageService.GetPageByCaption(Model.Title).Content_UA;</p>
+            <p>@Model.pageService.GetPageByCaption(Model.Title).Image;</p>
+        }
+    }
+
+    if (@Model.pageService.GetPageByCaption(Model.Title).ContainerType == "single"
+        && @Model.pageService.GetPageByCaption(Model.Title).Alias != null)
+    {
+        @*<a href="/@Model.pageService.GetPageByCaption(Model.Title).Parent.Caption">@Model.pageService.GetPageByCaption(Model.Title).Parent.Caption</a>
+            if (Model.Language == null || Model.Language == "en")
+            {
+                <h1>@Model.pageService.GetPageByCaption(Model.Title).Intro_En</h1>
+                <p>@Model.pageService.GetPageByCaption(Model.Title).Content_En;</p>
+                <p>@Model.pageService.GetPageByCaption(Model.Title).Image;</p>
+            }
+            else
+            {
+                <h1>@Model.pageService.GetPageByCaption(Model.Title).Intro_UA</h1>
+                <p>@Model.pageService.GetPageByCaption(Model.Title).Content_UA;</p>
+                <p>@Model.pageService.GetPageByCaption(Model.Title).Image;</p>
+            }*@
+
+        <a href="/@Model.pageService.GetPageByCaption(Model.Title).Alias.Caption">@Model.pageService.GetPageByCaption(Model.Title).Alias.Caption</a>
+
+    }
+}
+
+
+
