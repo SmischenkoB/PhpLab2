@@ -105,6 +105,7 @@ namespace DBService.Services
         public void DeletePage(Page p)
         {
             CascadeRemove(p);
+            
         }
 
         private void CascadeRemove(Page p)
@@ -122,6 +123,7 @@ namespace DBService.Services
                 using (ApplicationContext db = new ApplicationContext())
                 {
                     db.Pages.Remove(p);
+                    db.SaveChanges();
                 }
             }
         }
