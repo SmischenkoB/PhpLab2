@@ -1,0 +1,31 @@
+﻿@page "{title?}"
+@model PhpLab2.Areas.Page.Pages.EditModel
+@{
+}
+@if (Model.Title == null)
+{
+    @foreach (var item in @Model.pageService.GetPages())
+    {
+        <a href="/page/edit/@item.Caption"><p>@item.Caption</p></a>
+    }
+}
+else
+{
+<form method="post">
+    @Model.pageService.GetPageByCaption(@Model.Title).Caption<br>
+
+    <label for="Intro_en">Intro english</label>
+    <input type="text" name="Intro_en" value=@Model.pageService.GetPageByCaption(@Model.Title).Intro_En /><br>
+    <label for="Intro_ua">Intro ukrainian</label>
+    <input type="text" name="Intro_ua" value=@Model.pageService.GetPageByCaption(@Model.Title).Intro_UA /><br>
+
+    <label for="Content_en">Content english</label>
+    <input type="text" name="Content_en" value=@Model.pageService.GetPageByCaption(@Model.Title).Content_En /><br>
+    <label for="Content_ua">Content ukrainian</label>
+    <input type="text" name="Content_ua" value=@Model.pageService.GetPageByCaption(@Model.Title).Content_UA /><br>
+
+
+    <input type="submit" asp-page-handler="OnPost">
+</form>
+}
+

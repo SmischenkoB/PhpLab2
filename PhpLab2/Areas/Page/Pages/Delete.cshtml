@@ -1,0 +1,21 @@
+﻿@page "{title?}"
+@model PhpLab2.Areas.Page.Pages.DeleteModel
+@{
+}
+@if (Model.Title == null)
+{
+    @foreach (var item in @Model.pageService.GetPages())
+    {
+        <a href="/page/delete/@item.Caption"><p>@item.Caption</p></a>
+    }
+}
+else 
+{
+<form method="post">
+    @Model.pageService.GetPageByCaption(@Model.Title).Caption<br>
+
+    <label for="CaptionName">Caption to Delete</label>
+    <input type="text" name="CaptionName" value=@Model.Title /><br>
+    <input type="submit" asp-page-handler="OnPost">
+</form>
+}

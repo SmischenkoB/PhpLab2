@@ -1,0 +1,27 @@
+﻿@page
+@model PhpLab2.Areas.Page.Pages.CreateModel
+@{
+}
+<h2>hi</h2>
+<form method="post">
+    <label for="Caption">Caption</label>
+    <input type="text" name="Caption" /><br>
+    <label for="BaseCategory">Base Category</label>
+    <input type="text" name="BaseCategory" /><br>
+
+
+    <label for="Intro_en">Intro english</label>
+    <input type="text" name="Intro_en" /><br>
+    <label for="Intro_ua">Intro ukrainian</label>
+    <input type="text" name="Intro_ua" /><br>
+
+    <label for="Content_en">Content english</label>
+    <input type="text" name="Content_en" /><br>
+    <label for="Content_ua">Content ukrainian</label>
+    <input type="text" name="Content_ua" /><br>
+
+    <input type="radio" name="container" value="single" />single<br>
+    <input type="radio" name="container" value="container" />container<br>
+
+    <input type="submit" asp-page-handler="OnPost">
+</form>

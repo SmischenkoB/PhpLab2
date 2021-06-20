@@ -74,9 +74,55 @@ namespace DBService.Services
 
         public Page GetPageByCaption(string caption)
         {
+            
             using (ApplicationContext db = new ApplicationContext())
             {
                 return db.Pages.Include(i => i.Parent).Include(i => i.Alias).First(i => i.Caption == caption);
+            }
+        }
+
+        public List<Page> GetPages()
+        {
+            using(ApplicationContext db = new ApplicationContext())
+            {
+                return db.Pages.ToList();
+            }
+        }
+
+        public void SaveChagedPage(Page p)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var j = db.Pages.FirstOrDefault(i => i.Caption == p.Caption);
+                j.Intro_En = p.Intro_En;
+                j.Intro_UA = p.Intro_UA;
+                j.Content_En = p.Content_En;
+                j.Content_UA = p.Content_UA;
+                db.SaveChanges();
+            }
+        }
+
+        public void DeletePage(Page p)
+        {
+            CascadeRemove(p);
+        }
+
+        private void CascadeRemove(Page p)
+        {
+            if (p.ContainerType == "container")
+            {
+                var listChild = GetChildren(p.Caption);
+                foreach (var item in listChild)
+                {
+                    CascadeRemove(item);
+                }
+            }
+            else
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    db.Pages.Remove(p);
+                }
             }
         }
     }
